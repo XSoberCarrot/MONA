@@ -22,6 +22,7 @@ def yolo_boxes_extractor(yolo_result, points, threshold_npt=3):
         pt_num_in_box = point_in_box_count(points, box)
         if pt_num_in_box >= threshold_npt:
             boxes_filtered.append(box)
+    boxes_filtered = np.array(boxes_filtered)
     return boxes_filtered
 
 def points_filter(points, boxes):
