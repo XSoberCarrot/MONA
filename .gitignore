@@ -6,8 +6,6 @@
 *.out
 *.zip
 slurm_logs
-logs_*
-log_*
 __pycache__
 logs
 outputs
