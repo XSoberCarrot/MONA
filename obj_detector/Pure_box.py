@@ -14,7 +14,7 @@ def point_in_box_count(points, box):
     pt_num_in_box = np.sum(x_within & y_within)
     return pt_num_in_box
 
-def yolo_boxes_extractor(yolo_result, points, threshold_npt=1):
+def yolo_boxes_extractor(yolo_result, points, threshold_npt=0):
     boxes_raw = yolo_result.boxes.xyxy.cpu().numpy().tolist()
     boxes = np.array(boxes_raw)
     boxes_filtered = []
@@ -40,23 +40,12 @@ def points_filter(points, boxes):
     return points_filtered
 
 def mask_img_overlay_tensor(img, mask, points=None, boxes = None, alpha=0.5):
-    masks = mask.cpu().numpy().astype(np.uint8)
-    mask_colored = np.zeros_like(img)
-    if len(masks) >1:
-        print("More than one mask")
-    for i in range(len(masks)):
-        mask = masks[i].squeeze(0)
-        mask_colored[mask == 1] = np.array([0, 255, 0])
-    overlap_img = cv2.addWeighted(img, 1-alpha, mask_colored, alpha, 0)
-    if points is not None:
-        for point in points:
-            x, y = point
-            cv2.circle(overlap_img, (x, y), 5, (0, 0, 255), -1)
+
     if boxes is not None:
         for box in boxes:
             x1, y1, x2, y2 = box.astype(int)
-            cv2.rectangle(overlap_img, (x1, y1), (x2, y2), (255, 0, 0), 2)
-    return overlap_img
+            cv2.rectangle(img, (x1, y1), (x2, y2), (255, 0, 0), 2)
+    return img
 
 
 # SAM settings
@@ -83,8 +72,8 @@ for i in range(len(os.listdir(json_file_dir))):
     with open(json_files[i], "r") as f:
         dynamic_points_data.append(json.load(f))
 # Path to the directory containing the video frames
-output_video_path = "market_4.mp4"
-frames_dir = "/home/boxun/work/Project/CV2024_Object_detection/leapvo/data/samples/sintel_market_5/market_4"
+output_video_path = "demo_pure_box.mp4"
+frames_dir = "/home/boxun/work/Project/CV2024_Object_detection/leapvo/data/samples/sintel_market_5/frames"
 frame_files = sorted([os.path.join(frames_dir, f) for f in os.listdir(frames_dir) if f.endswith(".png") or f.endswith(".jpg")])
 first_frame = cv2.imread(frame_files[1])
 frame_height, frame_width, _ = first_frame.shape

@@ -8,14 +8,12 @@ import matplotlib.pyplot as plt
 from segment_anything import SamPredictor, sam_model_registry
 
 def mask_img_overlay(img, mask, points=None, alpha=0.5):
-    mask_colored = np.zeros_like(img)
-    mask_colored[mask] = np.array([0, 255, 0])
-    overlap_img = cv2.addWeighted(img, 1-alpha, mask_colored, alpha, 0)
+
     if points is not None:
         for point in points:
             x, y = point
-            cv2.circle(overlap_img, (x, y), 5, (0, 0, 255), -1)
-    return overlap_img
+            cv2.circle(img, (x, y), 5, (0, 0, 255), -1)
+    return img
 
 # SAM settings
 sam_checkpoint = "/home/boxun/work/Project/CV2024_Object_detection/sam_vit_h_4b8939.pth"
@@ -39,8 +37,8 @@ for i in range(len(os.listdir(json_file_dir))):
         dynamic_points_data.append(json.load(f))
 
 # Path to the directory containing the video frames
-output_video_path = "ambush_3_pure_sam.mp4"
-frames_dir = "/home/boxun/work/Project/CV2024_Object_detection/leapvo/data/samples/sintel_market_5/ambush_3"
+output_video_path = "demo_pure_point.mp4"
+frames_dir = "/home/boxun/work/Project/CV2024_Object_detection/leapvo/data/samples/sintel_market_5/frames"
 frame_files = sorted([os.path.join(frames_dir, f) for f in os.listdir(frames_dir) if f.endswith(".png") or f.endswith(".jpg")])
 first_frame = cv2.imread(frame_files[1])
 frame_height, frame_width, _ = first_frame.shape
