@@ -24,7 +24,7 @@ data_calib = "data/samples/sintel_market_5/calib.txt"
 data_savedir = "logs/sintel_market_5"
 data_name = "sintel_market_5"
 save_trajectory = False
-save_video = False
+save_video = True
 save_plot = False
 
 @hydra.main(version_base=None, config_path=config_path, config_name=config_name)
@@ -78,6 +78,7 @@ def main(cfg: DictConfig):
             slam = LEAPVO(cfg, ht=image.shape[1], wd=image.shape[2])
 
         slam(t, image, intrinsics)
+        slam.current_frame = i+1
 
     pred_traj = slam.terminate()
 
