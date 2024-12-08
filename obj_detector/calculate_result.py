@@ -39,7 +39,7 @@ def calculate_statistics(metrics):
     return statistics
 
 # Path to your error_sum.txt file
-Datasets = ["sintel_masked", "sintel", "shibuya", "shibuya_masked"]
+Datasets = ["sintel", "sintel_masked", "sintel_pure_pts", "sintel_pure_boxes"]
 logs_dir = "/home/boxun/work/Project/CV2024_Object_detection/leapvo/logs/"
 save_dir = "/home/boxun/work/Project/CV2024_Object_detection/leapvo/logs/"
 
