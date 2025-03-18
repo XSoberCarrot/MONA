@@ -64,30 +64,18 @@ def mask_img_overlay_tensor(img, mask, points=None, boxes=None, alpha=0.5):
     if np.any(mask_indices):
         overlay_img[mask_indices] = cv2.addWeighted(img[mask_indices], 1 - alpha, mask_colored[mask_indices], alpha, 0)
     
-    # # Draw points on the overlay
-    # if points is not None:
-    #     for point in points:
-    #         x, y = point
-    #         cv2.circle(overlay_img, (x, y), 5, (0, 0, 255), -1)
-    
-    # # Draw boxes on the overlay
-    # if boxes is not None:
-    #     for box in boxes:
-    #         x1, y1, x2, y2 = box.astype(int)
-    #         cv2.rectangle(overlay_img, (x1, y1), (x2, y2), (255, 0, 0), 2)
-    
     return overlay_img
 
 
 # SAM settings
-sam_checkpoint = "/home/boxun/work/Project/CV2024_Object_detection/sam_vit_h_4b8939.pth"
+sam_checkpoint = f"{os.path.dirname(__file__)}/../weights/sam_vit_h_4b8939.pth"
 model_type = "vit_h"
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 sam = sam_model_registry[model_type](checkpoint=sam_checkpoint)
 sam.to(device=device)
 predictor = SamPredictor(sam)
 # Initialize YOLO11
-weights_path = "/home/boxun/work/Project/CV2024_Object_detection/yolo11x.pt"
+weights_path = f"{os.path.dirname(__file__)}/../weights/yolo11x.pt"
 yolo = YOLO(weights_path)
 
 
@@ -97,8 +85,8 @@ SCENES = [
     "RoadCrossing05", "RoadCrossing06", "RoadCrossing07"
 ]
 
-DATASET = "./data/TartanAir_shibuya"
-SAVEDIR = "./logs/shibuya"
+DATASET = f"{os.path.dirname(__file__)}/../data/TartanAir_shibuya"
+SAVEDIR = f"{os.path.dirname(__file__)}/../logs/shibuya"
 
 for scene in tqdm(SCENES):
     # Path to the directory containing the video frames

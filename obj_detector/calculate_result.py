@@ -40,8 +40,8 @@ def calculate_statistics(metrics):
 
 # Path to your error_sum.txt file
 Datasets = ["sintel", "sintel_masked", "sintel_pure_pts", "sintel_pure_boxes"]
-logs_dir = "/home/boxun/work/Project/CV2024_Object_detection/leapvo/logs/"
-save_dir = "/home/boxun/work/Project/CV2024_Object_detection/leapvo/logs/"
+logs_dir = f"{os.path.dirname(__file__)}/../logs/"
+save_dir = f"{os.path.dirname(__file__)}/../logs/"
 
 output_data = {}
 
@@ -52,11 +52,6 @@ for dataset in Datasets:
 
     # Calculate statistics
     stats = calculate_statistics(metrics)
-
-    # Print the results
-    # print("Scene Metrics:")
-    # for idx, result in enumerate(metrics, 1):
-    #     print(f"Scene {idx}: ATE={result['ATE']}, RPE_trans={result['RPE_trans']}, RPE_rot={result['RPE_rot']}")
 
     print(f"\nStatistics of {file_path}:")
     print(f"ATE - Mean: {stats['ATE']['mean']:.5f}, Std: {stats['ATE']['std']:.5f}")

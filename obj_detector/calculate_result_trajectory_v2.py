@@ -74,13 +74,8 @@ def read_traj_file(file_path):
 
 def extract_trajectory(trajectory):
     point_xyz = trajectory[:, :3]
-    # point_quat = trajectory[:, 3:]
-    # # Apply quaternion rotation to the trajectory points inversely
-    # rotation = Rotation.from_quat(point_quat)
-    # rotation = rotation.inv()
-    # point_xyz = rotation.apply(point_xyz)
 
-    # # Extract the x, y, and z components of the trajectory
+    # Extract the x, y, and z components of the trajectory
     x = point_xyz[:, 0]
     y = point_xyz[:, 1]
     z = point_xyz[:, 2]
@@ -114,21 +109,17 @@ def trajectory_alignment(trajectory_gt, trajectory_pred_offset):
 
 
 SCENES = [
-    "alley_2", "ambush_4", "ambush_5", "ambush_6",
-    "cave_2", "cave_4", "market_2", "market_5",
-    "market_6", "shaman_3", "sleeping_1", "sleeping_2",
-    "temple_2", "temple_3"
+    "ambush_6","temple_3"
 ]
 columns = ["frame_No", "tx", "ty", "tz", "qw", "qx", "qy", "qz"]
 
 scaler = {}
-# view = {"temple_2": [22, -136], "sleeping_1": [22, 136]}
 
 for scene in SCENES:
     print(scene)
-    sintel_gt_file = f"/home/boxun/work/Project/CV2024_Object_detection/leapvo/data/MPI-Sintel-complete/training/camdata_left/{scene}"
-    sintel_traj_file_masked = f"/home/boxun/work/Project/CV2024_Object_detection/leapvo/logs/sintel_masked/sintel-{scene}/leapvo_traj.txt"
-    sintel_traj_file_unmasked = f"/home/boxun/work/Project/CV2024_Object_detection/leapvo/logs/sintel/sintel-{scene}/leapvo_traj.txt"
+    sintel_gt_file = f"{os.path.dirname(__file__)}/../data/MPI-Sintel-complete/training/camdata_left/{scene}"
+    sintel_traj_file_masked = f"{os.path.dirname(__file__)}/../logs/sintel_masked/sintel-{scene}/leapvo_traj.txt"
+    sintel_traj_file_unmasked = f"{os.path.dirname(__file__)}/../logs/sintel/sintel-{scene}/leapvo_traj.txt"
 
     traj_gt, timestamps_mat = load_sintel_traj(sintel_gt_file)
     traj_data_masked = read_traj_file(sintel_traj_file_masked)
@@ -164,14 +155,6 @@ for scene in SCENES:
     ax.plot(x_gt, y_gt, z_gt, label="Ground Truth", color="blue", linewidth=2)
     ax.plot(x_masked, y_masked, z_masked, label="Masked", color="red", linewidth=2)
     ax.plot(x_unmasked, y_unmasked, z_unmasked, label="Unmasked", color="green", linewidth=2)
-
-    # # Mark start and end points for both
-    # ax.scatter(x_gt[0], y_gt[0], z_gt[0], color="green", label="Start (GT)", s=50)
-    # ax.scatter(x_gt[-1], y_gt[-1], z_gt[-1], color="red", label="End (GT)", s=50)
-    # ax.scatter(x_masked[0], y_masked[0], z_masked[0], color="green", label="Start (Masked)", s=50)
-    # ax.scatter(x_masked[-1], y_masked[-1], z_masked[-1], color="red", label="End (Masked)", s=50)
-    # ax.scatter(x_unmasked[0], y_unmasked[0], z_unmasked[0], color="green", label="Start (Unmasked)", s=50)
-    # ax.scatter(x_unmasked[-1], y_unmasked[-1], z_unmasked[-1], color="red", label="End (Unmasked)", s=50)
 
     # Add labels and legend
     ax.set_title(f"Aligned 3D Trajectory - {scene}")

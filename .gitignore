@@ -5,6 +5,7 @@
 .DS_Store
 *.out
 *.zip
+*.vscode
 slurm_logs
 __pycache__
 outputs

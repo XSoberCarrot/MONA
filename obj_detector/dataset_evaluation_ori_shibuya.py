@@ -22,11 +22,12 @@ SCENES = [
 
 # Iterate through each scene and execute the Python script with parameters
 for scene in SCENES:
+    SCENES_PATH = os.path.join(DATASET, scene, "image_0")
     command = [
         "python", "main/eval.py",
         "--config-path=../configs",
         "--config-name=shibuya",
-        f"data.imagedir={os.path.join(DATASET, scene, 'image_0')}",
+        f"data.imagedir={SCENES_PATH}",
         f"data.gt_traj={os.path.join(DATASET, scene, 'gt_pose.txt')}",
         f"data.savedir={SAVEDIR}",
         "data.calib=calibs/tartan_shibuya.txt",

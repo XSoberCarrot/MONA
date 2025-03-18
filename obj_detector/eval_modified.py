@@ -10,39 +10,13 @@ from main.leapvo import LEAPVO
 from main.stream import dataset_stream, sintel_stream, video_stream
 from main.utils import (eval_metrics, load_traj, plot_trajectory,
                         save_trajectory_tum_format, update_timestamps)
-from omegaconf import DictConfig, OmegaConf
 
-import pdb
 
-os.environ["CUDA_LAUNCH_BLOCKING"] = "1"
-
-# Define the configuration parameters
-config_path = "../configs"
-config_name = "demo"
-data_imagedir = "data/samples/sintel_market_5/frames"
-data_calib = "data/samples/sintel_market_5/calib.txt"
-data_savedir = "logs/sintel_market_5"
-data_name = "sintel_market_5"
-save_trajectory = False
-save_video = True
-save_plot = False
-
-@hydra.main(version_base=None, config_path=config_path, config_name=config_name)
+@hydra.main(version_base=None, config_path="configs", config_name="demo")
 def main(cfg: DictConfig):
 
     slam = None
     skip = 0
-    # Make cfg mutable
-    OmegaConf.set_struct(cfg, False)
-    # Update cfg with custom parameters defined above
-    cfg.data.imagedir = data_imagedir
-    cfg.data.calib = data_calib
-    cfg.data.savedir = data_savedir
-    cfg.data.name = data_name
-    cfg.data.stride = 1
-    cfg.save_trajectory = save_trajectory
-    cfg.save_video = save_video
-    cfg.save_plot = save_plot
 
     imagedir, calib, stride, skip = (
         cfg.data.imagedir,

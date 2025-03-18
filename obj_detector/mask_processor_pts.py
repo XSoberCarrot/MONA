@@ -64,12 +64,15 @@ def mask_img_overlay(img, mask, points=None, alpha=0.5):
     return overlay_img
 
 # SAM settings
-sam_checkpoint = "/home/boxun/work/Project/CV2024_Object_detection/sam_vit_h_4b8939.pth"
+sam_checkpoint = f"{os.path.dirname(__file__)}/../weights/sam_vit_h_4b8939.pth"
 model_type = "vit_h"
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 sam = sam_model_registry[model_type](checkpoint=sam_checkpoint)
 sam.to(device=device)
 predictor = SamPredictor(sam)
+# Initialize YOLO11
+weights_path = f"{os.path.dirname(__file__)}/../weights/yolo11x.pt"
+yolo = YOLO(weights_path)
 
 SCENES = [
     "alley_2", "ambush_4", "ambush_5", "ambush_6",
@@ -77,8 +80,8 @@ SCENES = [
     "market_6", "shaman_3", "sleeping_1", "sleeping_2",
     "temple_2", "temple_3"
 ]
-DATASET = "./data/MPI-Sintel-complete/training"
-SAVEDIR = "./logs/sintel"
+DATASET = f"{os.path.dirname(__file__)}/../data/MPI-Sintel-complete/training"
+SAVEDIR = f"{os.path.dirname(__file__)}/../logs/sintel"
 
 for scene in tqdm(SCENES):
     # Path to the directory containing the video frames
