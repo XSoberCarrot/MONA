@@ -10,6 +10,8 @@ The code was tested on Ubuntu 20.04, PyTorch 2.5.1, CUDA 12.2 with 1 NVIDIA GPU 
 
 2. Replace eval.py and leapvo.py with eval_modified.py and leapvo_modified.py (rename them into eval.py and leapvo.py )
 
+3. Put sam_vit_h_4b8939.pth and yolo11x.pt in the weights folder, put dataset in the data folder
+
 ## Layout (Useing MPI-Sintel as example)
 ```
 leapvo_folder
