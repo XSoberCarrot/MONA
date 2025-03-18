@@ -36,7 +36,7 @@ leapvo_folder
 5. Run video generator to generate the result video
 
 ## Evaluations
-We provide evaluation scripts for MPI-Sinel, TartanAir-Shibuya, and Replica.
+We provide evaluation scripts for MPI-Sinel
 
 ### MPI-Sintel
 Follow [MPI-Sintel](http://sintel.is.tue.mpg.de/) and download it to the `data` folder. For evaluation, we also need to download the [groundtruth camera pose data](http://sintel.is.tue.mpg.de/depth). The folder structure should look like
